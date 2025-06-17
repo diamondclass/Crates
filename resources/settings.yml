@@ -1,11 +1,4 @@
-#  _    _ _ _
-# | |  | (_) |
-# | |  | |_| | ___  ___
-# | |  | | | |/ _ \/ __|
-# | |__| | | |  __/\__ \
-#  \____/|_|_|\___||___/
-#
-# Ulises
+# Ulises Crates System
 # Plugin based on https://github.com/ArkFlame/Crates
 
 # Main command to access plugin functionality
@@ -16,101 +9,15 @@ prefix: "&3Ulises &7|"
 
 # Crate chest hologram display
 hologram_lines:
-  - "&b%displayname%"    # hologram header line
-  - "&7&o(( Right-click to open ))"          # interaction prompt
+  - "&b%displayname%"                       # hologram header line
+  - "&7&o(( Right-click to open ))"         # interaction prompt
 
 # Key item appearance
 item:
-  name: "&3Crate Key: &b%displayname%"  # item display name
+  name: "&3Crate Key: &b%displayname%"       # item display name
   lore:
     - "&3Use this &b%displayname% &3key at the spawn point"  # item lore text
 
+# Inventory GUI
 inventory:
   title: "&3Opening: &b%displayname% Crate"  # inventory GUI title
-
-# Command usage template
-command_usage: "&3Usage: /%label% %cmd% %args%"   # command syntax guide
-
-# General error notifications
-error: "&3Oops! Something went wrong. Contact an administrator."     # generic failure
-no_console: "&3This command is not available from the console."       # console usage block
-no_permission: "&3You lack the required permissions for that action."  # permission denied
-no_block: "&3Aim at a block to use this command."                    # missing target block
-no_keys: "&3You’re not holding any crate keys."                       # no key in hand
-no_keys_pending: "&3You don’t have any unclaimed keys."                # no pending keys
-no_space: "&3Not enough room in your inventory!"                      # inventory full
-no_crate: "&3That crate type does not exist."                         # invalid crate
-no_interact: "&3You must target a crate to use a key."                # wrong interaction
-invalid_key: "&3That key doesn’t match the %crate_name% crate."       # key mismatch
-invalid_number: "&3Please enter a valid number."                      # number parsing error
-valid_key: "&3Success! You opened the &b%crate_name% &3crate."        # crate opened
-received_keys: "&3You received &b%amount% &3%crate_name% keys from &b%giver_name%&3!"  # key grant update
-
-# Help menu and descriptions
-help:
-  title: "&3Ulises Crates v%version% &3by &b2LS"    # help title
-  command: "&3/%label% %cmd% %args% &3— &b%description%\n"  # help entry
-  subtitle: ""                                      # no subtitle
-  description: "View available crate commands and info."  # help description
-
-# Add crate location
-add_location:
-  success: "&3Location for &b%crate_name% &3has been added."  # success
-  already_set: "&3That spot is already used by another crate."  # conflict notice
-  description: "Registers a new crate spawn location."          # help text
-
-# Check pending keys
-check:
-  success: "&3You have &b%amount% &3keys waiting to be claimed."  # pending keys
-  description: "Show your unclaimed crate keys."                # help text
-
-# Claim keys
-claim:
-  success: "&3Claimed &b%amount% &3keys successfully."  # claim confirmation
-  description: "Redeem your pending crate keys."      # help text
-
-# Edit crate contents
-contents:
-  success: "&3Now editing crate &b%crate_name% &3contents."  # edit mode
-  description: "Modify what items appear in a crate."         # help text
-
-# Create a new crate
-create:
-  success: "&3Crate &b%crate_name% &3has been created."  # creation success
-  description: "Define a new crate with its properties."  # help text
-
-# Update crate display name
-displayname:
-  success: "&3Crate &b%crate_name% &3renamed to &b%new_name%&3."  # rename success
-  description: "Change the shown name of a crate."             # help text
-
-# Give keys to all players
-keyall:
-  success: "&3Distributed &b%amount% &3keys for %crate_name% crate to everyone."  # mass distribution
-  description: "Grant keys to all online players."                              # help text
-
-# Give keys to one player
-key:
-  success: "&3Gave &b%amount% &3keys for %crate_name% crate to &b%player_name%&3."  # single deliver
-  description: "Give crate keys to a specific player."                           # help text
-
-# List crates
-list:
-  success: "&3Available crates: &b%crates_list%"  # list display
-  description: "Show all crate types you can use."  # help text
-
-# Remove a crate type
-remove:
-  success: "&3Crate &b%crate_name% &3removed successfully."  # removal success
-  description: "Delete an existing crate."                       # help text
-
-# Remove crate location
-remove_location:
-  success: "&3Location for &b%crate_name% &3has been removed."             # success
-  no_crate_at_location: "&3No crate at that specified location."            # absence warning
-  description: "Unregister a crate spawn point."                          # help text
-
-# Set crate inventory rows
-rows:
-  success: "&3Set &b%rows% &3rows for %crate_name% crate inventory."  # row update
-  description: "Adjust number of slots shown in the crate GUI."       # help text

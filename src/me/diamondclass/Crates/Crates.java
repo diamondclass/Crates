@@ -1,8 +1,8 @@
 package me.diamondclass.Crates;
 
 import org.bukkit.Server;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import me.diamondclass.Crates.command.CratesCommandExecutor;
 import me.diamondclass.Crates.config.CratesConfig;
@@ -19,32 +19,43 @@ public class Crates extends JavaPlugin {
 
   @Override
   public void onEnable() {
-    Server server = getServer();
     ConfigurationUtil configurationUtil = new ConfigurationUtil(this);
     configurationUtil.createConfiguration("%datafolder%/settings.yml");
-    CratesConfig cratesConfig = new CratesConfig(configurationUtil.getConfiguration("%datafolder%/settings.yml"));
+    configurationUtil.createConfiguration("%datafolder%/language.yml");
+
+    FileConfiguration settingsConfig = configurationUtil.getConfiguration("%datafolder%/settings.yml");
+    FileConfiguration langConfig = configurationUtil.getConfiguration("%datafolder%/language.yml");
+
+    CratesConfig cratesConfig = new CratesConfig(settingsConfig, langConfig);
     crateManager = new CrateManager(configurationUtil, cratesConfig, this);
-    cratesPlayerManager = new CratesPlayerManager(crateManager, configurationUtil, server);
+    cratesPlayerManager = new CratesPlayerManager(crateManager, configurationUtil, getServer());
+
     String mainCommand = cratesConfig.getRawPluginMainCommand();
-    boolean registered = CommandRegister.registerCommand(mainCommand,
+    boolean registered = CommandRegister.registerCommand(
+            mainCommand,
             new CratesCommandExecutor(crateManager, cratesPlayerManager, cratesConfig, this),
-            this);
+            this
+    );
+
     if (!registered) {
       getLogger().severe("An error has ocurred with your command: '" + mainCommand + "'");
-      server.getPluginManager().disablePlugin(this);
+      getServer().getPluginManager().disablePlugin(this);
       return;
     }
+
     crateManager.loadCrates();
     crateManager.spawnHolograms();
     listenerInitializer = new ListenerInitializer(this, crateManager, cratesPlayerManager, cratesConfig);
     listenerInitializer.initialize();
-    server.getConsoleSender().sendMessage("§3Ulises &7| §fPlugin &asuccessfully &floaded");
+
+    Server server = getServer();
+    server.getConsoleSender().sendMessage("§3Ulises §7| §fPlugin §asuccessfully §floaded");
     server.getConsoleSender().sendMessage("§e-------------------------------------------");
-    server.getConsoleSender().sendMessage("§3Ulises &7- &bCrates system");
-    server.getConsoleSender().sendMessage("§7&m-------------------------------------------");
+    server.getConsoleSender().sendMessage("§3Ulises §7- §bCrates system");
+    server.getConsoleSender().sendMessage("§7§m-------------------------------------------");
     server.getConsoleSender().sendMessage("§fVersion: §a" + getDescription().getVersion());
     server.getConsoleSender().sendMessage("§fAuthor: §b" + getDescription().getAuthors());
-    server.getConsoleSender().sendMessage("§fYour main command is &b" + mainCommand);
+    server.getConsoleSender().sendMessage("§fYour main command is §b" + mainCommand);
     server.getConsoleSender().sendMessage("§e-------------------------------------------");
   }
 
@@ -60,6 +71,6 @@ public class Crates extends JavaPlugin {
     if (listenerInitializer != null) {
       listenerInitializer.deinitialize();
     }
-    getServer().getConsoleSender().sendMessage("§3Ulises &7| §fPlugin &csuccessfully &fdisabled");
+    getServer().getConsoleSender().sendMessage("§3Ulises §7| §fPlugin §csuccessfully §fdisabled");
   }
 }

@@ -4,8 +4,3 @@ authors: [LinsaFTW, diamondclass]
 main: me.diamondclass.Crates.Crates
 depend: [HolographicDisplays]
 load: POSTWORLD
-commands:
-  ulises:
-    description: Main command
-    usage: /ulises help
-    aliases: [crates, uc]
