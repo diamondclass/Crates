@@ -3,6 +3,7 @@ package me.diamondclass.Crates;
 import org.bukkit.Server;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import me.diamondclass.Crates.command.CratesCommandExecutor;
 import me.diamondclass.Crates.config.CratesConfig;
@@ -33,19 +34,13 @@ public class Crates extends JavaPlugin {
     String mainCommand = cratesConfig.getRawPluginMainCommand();
     boolean registered = CommandRegister.registerCommand(
             mainCommand,
-            new CratesCommandExecutor(this, crateManager, cratesPlayerManager, cratesConfig),
+            new CratesCommandExecutor(crateManager, cratesPlayerManager, cratesConfig, this),
             this
     );
 
-    if (!registered) {
-      getLogger().severe("An error has ocurred with your command: '" + mainCommand + "'");
-      getServer().getPluginManager().disablePlugin(this);
-      return;
-    }
-
     crateManager.loadCrates();
     crateManager.spawnHolograms();
-    listenerInitializer = new ListenerInitializer(this, crateManager, cratesPlayerManager, cratesConfig);
+    listenerInitializer = new ListenerInitializer((Plugin) this, crateManager, cratesPlayerManager, cratesConfig);
     listenerInitializer.initialize();
 
     Server server = getServer();
@@ -73,9 +68,14 @@ public class Crates extends JavaPlugin {
     }
 
     if (crateManager != null) {
-      crateManager.loadCrates();
       crateManager.despawnHolograms();
+      crateManager.loadCrates();
       crateManager.spawnHolograms();
+    }
+
+    if (listenerInitializer != null) {
+      listenerInitializer.deinitialize();
+      listenerInitializer.initialize();
     }
   }
 
