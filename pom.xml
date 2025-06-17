@@ -1,7 +1,7 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>dev._2lstudios</groupId>
-    <artifactId>Crates</artifactId>
+    <groupId>me.diamondclass</groupId>
+    <artifactId>Ulises</artifactId>
     <version>SNAPSHOT</version>
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>

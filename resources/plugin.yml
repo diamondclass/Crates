@@ -1,9 +1,11 @@
-name: Crates
-version: 0.0.6
-authors: [LinsaFTW]
-main: dev._2lstudios.crates.Crates
+name: Ulises
+version: 1.0
+authors: [LinsaFTW, diamondclass]
+main: me.diamondclass.Crates.Crates
 depend: [HolographicDisplays]
 load: POSTWORLD
 commands:
-  crates:
-    aliases: ["crate"]
+  ulises:
+    description: Main command
+    usage: /ulises help
+    aliases: [crates, uc]
