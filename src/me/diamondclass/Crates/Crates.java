@@ -16,24 +16,24 @@ public class Crates extends JavaPlugin {
   private CrateManager crateManager;
   private CratesPlayerManager cratesPlayerManager;
   private ListenerInitializer listenerInitializer;
+  private ConfigurationUtil configurationUtil;
+  private CratesConfig cratesConfig;
 
   @Override
   public void onEnable() {
-    ConfigurationUtil configurationUtil = new ConfigurationUtil(this);
+    configurationUtil = new ConfigurationUtil(this);
     configurationUtil.createConfiguration("%datafolder%/settings.yml");
     configurationUtil.createConfiguration("%datafolder%/language.yml");
 
-    FileConfiguration settingsConfig = configurationUtil.getConfiguration("%datafolder%/settings.yml");
-    FileConfiguration langConfig = configurationUtil.getConfiguration("%datafolder%/language.yml");
+    reloadConfigs();
 
-    CratesConfig cratesConfig = new CratesConfig(settingsConfig, langConfig);
     crateManager = new CrateManager(configurationUtil, cratesConfig, this);
     cratesPlayerManager = new CratesPlayerManager(crateManager, configurationUtil, getServer());
 
     String mainCommand = cratesConfig.getRawPluginMainCommand();
     boolean registered = CommandRegister.registerCommand(
             mainCommand,
-            new CratesCommandExecutor(crateManager, cratesPlayerManager, cratesConfig, this),
+            new CratesCommandExecutor(this, crateManager, cratesPlayerManager, cratesConfig),
             this
     );
 
@@ -59,6 +59,26 @@ public class Crates extends JavaPlugin {
     server.getConsoleSender().sendMessage("§e-------------------------------------------");
   }
 
+  public void reloadConfigs() {
+    configurationUtil.reloadConfiguration("%datafolder%/settings.yml");
+    configurationUtil.reloadConfiguration("%datafolder%/language.yml");
+
+    FileConfiguration settingsConfig = configurationUtil.getConfiguration("%datafolder%/settings.yml");
+    FileConfiguration langConfig = configurationUtil.getConfiguration("%datafolder%/language.yml");
+
+    if (cratesConfig == null) {
+      cratesConfig = new CratesConfig(settingsConfig, langConfig);
+    } else {
+      cratesConfig.reload(settingsConfig, langConfig);
+    }
+
+    if (crateManager != null) {
+      crateManager.loadCrates();
+      crateManager.despawnHolograms();
+      crateManager.spawnHolograms();
+    }
+  }
+
   @Override
   public void onDisable() {
     for (Player player : getServer().getOnlinePlayers()) {
@@ -72,5 +92,17 @@ public class Crates extends JavaPlugin {
       listenerInitializer.deinitialize();
     }
     getServer().getConsoleSender().sendMessage("§3Ulises §7| §fPlugin §csuccessfully §fdisabled");
+  }
+
+  public CratesConfig getCratesConfig() {
+    return cratesConfig;
+  }
+
+  public ConfigurationUtil getConfigurationUtil() {
+    return configurationUtil;
+  }
+
+  public CrateManager getCrateManager() {
+    return crateManager;
   }
 }

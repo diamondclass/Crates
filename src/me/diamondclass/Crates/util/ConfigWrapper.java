@@ -23,6 +23,10 @@ public class ConfigWrapper {
         return StringUtil.translateColorCodes(value);
     }
 
+    public void reload(Configuration newConfig) {
+        this.config = newConfig;
+    }
+
     public String getOrDefault(final String key, final String def) {
         final String value;
 

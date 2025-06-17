@@ -2,6 +2,7 @@
 command_usage: "&3Usage: /%label% %cmd% %args%"   # command syntax guide
 
 # General error notifications
+reload_success: "&3Ulises &7| &fPlugin &asuccessfully &freloaded"    # geload message
 error: "&3Oops! Something went wrong. Contact an administrator."     # generic failure
 no_console: "&3This command is not available from the console."       # console usage block
 no_permission: "&3You lack the required permissions for that action."  # permission denied

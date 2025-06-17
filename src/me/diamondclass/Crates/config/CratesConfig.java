@@ -81,6 +81,7 @@ public class CratesConfig {
         return getString("plugin_main_command");
     }
 
+    public String getReloadSuccess() { return getString("reload_success"); }
     public String getError() { return getString("error"); }
     public String getNoConsole() { return getString("no_console"); }
     public String getNoPermission() { return getString("no_permission"); }
