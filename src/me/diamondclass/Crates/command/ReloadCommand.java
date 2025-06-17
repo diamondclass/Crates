@@ -21,7 +21,7 @@ public class ReloadCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!sender.hasPermission("crates.reload")) {
-            sender.sendMessage(cratesConfig.getNoPermissionMessage());
+            sender.sendMessage(cratesConfig.getNoPermission());
             return true;
         }
 

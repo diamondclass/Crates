@@ -7,14 +7,21 @@ import me.diamondclass.Crates.util.Placeholder;
 import me.diamondclass.Crates.util.StringUtil;
 
 public class CratesConfig {
-    private final ConfigWrapper settingsWrapper;
-    private final ConfigWrapper langWrapper;
+    private ConfigWrapper settingsWrapper;
+    private ConfigWrapper langWrapper;
     private final Map<String, List<String>> listCache = new HashMap<>();
     private final Map<String, String> stringCache = new HashMap<>();
 
     public CratesConfig(Configuration settings, Configuration lang) {
         this.settingsWrapper = new ConfigWrapper(settings);
         this.langWrapper = new ConfigWrapper(lang);
+    }
+
+    public void reload(Configuration settings, Configuration lang) {
+        this.settingsWrapper = new ConfigWrapper(settings);
+        this.langWrapper = new ConfigWrapper(lang);
+        listCache.clear();
+        stringCache.clear();
     }
 
     private String getRawLangString(String key) {

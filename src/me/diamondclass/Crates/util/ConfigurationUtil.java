@@ -85,12 +85,8 @@ public class ConfigurationUtil {
   }
 
   public YamlConfiguration reloadConfiguration(String filePath) {
-    try (InputStream in = plugin.getClass().getClassLoader().getResourceAsStream(new File(filePath).getName())) {
-      File configFile = new File(replaceDataFolder(filePath));
-      if (in != null && configFile.exists()) {
-      }
-    } catch (IOException ignored) {}
-
+    deleteConfiguration(filePath, false);
+    createConfiguration(filePath);
     return getConfiguration(filePath);
   }
 
